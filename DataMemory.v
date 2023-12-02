@@ -45,20 +45,20 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData);
 
   output reg[31:0] ReadData; // Contents of memory location at Address
   reg[31:0] memory[0:4095];
-
+  
   always @(posedge Clk) begin
     case (MemWrite)
 
       // Store Word
-      2'b01: memory[Address[11:2]] <= WriteData;
+      2'b01: memory[Address[13:2]] <= WriteData;
 
       // Store Half
       2'b10: begin
         casex (Address[1:0])
           // Most Significant Bit
-          2'b0x: memory[Address[11:2]][31:16] <= WriteData[15:0];
+          2'b0x: memory[Address[13:2]][31:16] <= WriteData[15:0];
           // Least Significant Bit
-          2'b1x: memory[Address[11:2]][15:0] <= WriteData[15:0];
+          2'b1x: memory[Address[13:2]][15:0] <= WriteData[15:0];
         endcase
       end
 
@@ -66,13 +66,13 @@ module DataMemory(Address, WriteData, Clk, MemWrite, MemRead, ReadData);
       2'b11:  begin
         case (Address[1:0])
           // First 8-bits
-          2'b00: memory[Address[11:2]][31:24] <= WriteData[7:0];
+          2'b00: memory[Address[13:2]][31:24] <= WriteData[7:0];
           // Second 8-bits
-          2'b01: memory[Address[11:2]][23:16] <= WriteData[7:0];
+          2'b01: memory[Address[13:2]][23:16] <= WriteData[7:0];
           // Third 8-bits
-          2'b10: memory[Address[11:2]][15:8] <= WriteData[7:0];
+          2'b10: memory[Address[13:2]][15:8] <= WriteData[7:0];
           // Fourth 8-bits
-          2'b11: memory[Address[11:2]][7:0] <= WriteData[7:0];
+          2'b11: memory[Address[13:2]][7:0] <= WriteData[7:0];
         endcase
       end
 
@@ -86,28 +86,28 @@ always @(*) begin
     ReadData <= 0;
     case (MemRead)
       // Load Word
-      2'b01: ReadData <= memory[Address[11:2]]; 
+      2'b01: ReadData <= memory[Address[13:2]]; 
 
       // Load Half
       2'b10:  begin 
         casex (Address[1:0])
           // Most Significant Bit
-          2'b1x: ReadData[15:0] <= memory[Address[11:2]][15:0];
+          2'b1x: ReadData[15:0] <= memory[Address[13:2]][15:0];
           // Least Significant Bit
-          2'b0x: ReadData[15:0] <= memory[Address[11:2]][31:16];
+          2'b0x: ReadData[15:0] <= memory[Address[13:2]][31:16];
         endcase
       end
 
       2'b11:  begin   // Load Byte
         case (Address[1:0])
           // First 8-bits
-          2'b00: ReadData[7:0] <= memory[Address[11:2]][31:24];
+          2'b00: ReadData[7:0] <= memory[Address[13:2]][31:24];
           // Second 8-bits
-          2'b01: ReadData[7:0] <= memory[Address[11:2]][23:16];
+          2'b01: ReadData[7:0] <= memory[Address[13:2]][23:16];
           // Third 8-bits
-          2'b10: ReadData[7:0] <= memory[Address[11:2]][15:8];
+          2'b10: ReadData[7:0] <= memory[Address[13:2]][15:8];
           // Fourth 8-bits
-          2'b11: ReadData[7:0] <= memory[Address[11:2]][7:0];
+          2'b11: ReadData[7:0] <= memory[Address[13:2]][7:0];
         endcase
       end
 

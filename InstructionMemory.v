@@ -35,11 +35,11 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-module InstructionMemory(Address, Instruction); 
+module InstructionMemory(Address, Instruction, Clk); 
 
     input [31:0] Address;        // Input Address 
     output reg [31:0] Instruction;    // Instruction at memory location Address
-
+    input Clk;
     /* Please fill in the implementation here */
     reg [31:0] memory [0:1024];//was 1023
     //integer i;
@@ -48,7 +48,7 @@ module InstructionMemory(Address, Instruction);
            $readmemh("instruction_memory.mem", memory);
     end
 
-    always @(*)
+    always @(*) //changed from *
     begin
     Instruction = memory[Address >> 2];
     end

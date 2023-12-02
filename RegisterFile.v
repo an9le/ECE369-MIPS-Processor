@@ -55,33 +55,29 @@ module RegisterFile(ReadRegister1, ReadRegister2, WriteRegister, WriteData, RegW
   reg[31:0] arrayReg[0:31];
   integer i = 0;
 
-  initial begin //remove initial begin and loop once code not being stupid
-
-  for (i=0;i<32;i=i+1) begin
-  arrayReg[i] <= 0;
+//create 32 element array of 32 bit words
+  initial begin 
+      for (i=0;i<32;i=i+1) begin
+          arrayReg[i] <= 0;
+      end
+      arrayReg[29] <= 4095 << 2; 
   end
-
-  end
-  //create 32 element array of 32 bit words
 
   always@(*) begin
-    //read data out of read registers
-  //grab the read register address 1 or 2  and stuff into readdata 1 or 2
-  ReadData1 <= arrayReg[ReadRegister1];
-  ReadData2 <= arrayReg[ReadRegister2];
-   end	
-   
-   always@(*) begin
-    v0 <= arrayReg[2];
-    v1 <= arrayReg[3];
-   end	
+      //read data out of read registers
+      //grab the read register address 1 or 2  and stuff into readdata 1 or 2
+          ReadData1 <= arrayReg[ReadRegister1];
+          ReadData2 <= arrayReg[ReadRegister2];
+          v0 <= arrayReg[2];
+          v1 <= arrayReg[3];
+  end    
 
   always@(posedge Clk) begin
-  if (RegWrite) begin
-  arrayReg[WriteRegister]<=WriteData;
-  end
-  else begin
-  end
+      if (RegWrite) begin
+          arrayReg[WriteRegister]<=WriteData;
+      end
+      else begin
+      end
   end
 
 

@@ -1,9 +1,9 @@
-module EX_MEM(ALUResultIN, ALUResultOUT, readData2IN, readData2OUT, writeRegisterIN, writeRegisterOUT, PCResultIN, PCResultOUT,
+module EX_MEM(ALUResultIN, ALUResultOUT, readData2IN, readData2OUT, writeRegisterIN, writeRegisterOUT, PCResultIN, PCResultOUT, instructionIN, instructionOUT,
 RegWriteIN, MemWriteIN, MemReadIN, MemToRegIN, jumpALIN, 
 RegWriteOUT, MemWriteOUT, MemReadOUT, MemToRegOUT, jumpALOUT, Clk);  
   
-  input [31:0] ALUResultIN, readData2IN, PCResultIN;
-  output reg[31:0] ALUResultOUT, readData2OUT, PCResultOUT;
+  input [31:0] ALUResultIN, readData2IN, PCResultIN, instructionIN;
+  output reg[31:0] ALUResultOUT, readData2OUT, PCResultOUT, instructionOUT;
   input [4:0] writeRegisterIN;
   output reg [4:0] writeRegisterOUT;
   input Clk;
@@ -21,6 +21,7 @@ ALUResultOUT <= ALUResultIN;
 readData2OUT <= readData2IN;
 writeRegisterOUT <= writeRegisterIN;
 PCResultOUT <= PCResultIN;
+instructionOUT <= instructionIN;
 
 RegWriteOUT <= RegWriteIN;
 jumpALOUT <= jumpALIN;

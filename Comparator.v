@@ -20,10 +20,11 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Comparator(A, B, out, instruction);
+module Comparator(A, B, out, instruction, Clk);
   
 input [31:0] instruction;
 input signed [31:0] A, B; 
+input Clk;
 output reg [1:0] out;
 reg [1:0] result;
 
@@ -45,11 +46,11 @@ reg [1:0] result;
       end
 
       6'b000100 : begin                             // beq 
-        result <= (A==B);
+        result <= (A==B); 
       end
 
       6'b000101: begin                              // bne
-        result <= (A!=B);
+        result <= (A!=B); 
       end
 
       6'b000111: begin                              // bgtz
@@ -83,6 +84,7 @@ reg [1:0] result;
       end   
 
     endcase
+    
     
     if(result == 1) begin // branches
         out <= 3;

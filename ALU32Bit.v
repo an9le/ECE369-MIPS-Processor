@@ -33,7 +33,7 @@ module ALU32Bit(ALUControl, A, B, C, ALUResult);
 
   output reg[31:0] ALUResult;
 
-  always@(ALUControl, A, B, C) begin
+  always@(*) begin
   ALUResult <= 0;
     case(ALUControl)
     0: begin //add & addi & lw & sw & j & jr & jal
@@ -69,7 +69,7 @@ module ALU32Bit(ALUControl, A, B, C, ALUResult);
     ALUResult <= B>>C[10:6];
     end
     9: begin //slt & slti
-    ALUResult <= (A<B);    
+    ALUResult <= (A<B); 
     end
 
     default: begin

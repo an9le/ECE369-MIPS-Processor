@@ -23,7 +23,7 @@ casex(ALUInput)
     ALUControl <= 6'b000000;  // addi
 
   10'b0000100000: 
-    ALUControl <= 6'b000000;  // case 0: add, lw, lh, lb, sw, sh, sb
+    ALUControl <= 6'b000000;  // case 0: add
 
   10'b0000100010: 
     ALUControl <= 6'b000001;  // case 1: sub
@@ -64,8 +64,8 @@ casex(ALUInput)
   10'b0010xxxxxx: 
     ALUControl <= 6'b001001;  // case 9: slti
 
-//  10'b1000xxxxxx: 
-//    ALUControl <= 6'b001010;  // case 10: bgez
+  10'b1010xxxxxx: 
+    ALUControl <= 6'b000000;  // case 10: lw, lh, lb, sw, sh, sb
 
 //  10'b1001xxxxxx: 
 //    ALUControl <= 6'b001011;  // case 11: beq

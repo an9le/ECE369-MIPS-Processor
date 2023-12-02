@@ -9,7 +9,7 @@ output reg [1:0] MemRead; // lw, lh, lb
 output reg [1:0] MemWrite; //sw, sh, sb
 output reg [3:0] ALUOp;
 
-  always@(Instruction) begin
+  always@(*) begin
     RegWrite <= 0; 
     RegDst <= 0;
     ALUSrc <= 0; 
@@ -32,7 +32,7 @@ casex(Instruction[31:26])
     ALUSrc <= 0;
     ALUOp <= 0;
     RegWrite <= 0;
-    RegDst <= 3;
+    RegDst <= 0;
 end 
 
 else begin 
@@ -123,7 +123,7 @@ end
     ALUSrc <= 0;
     ALUOp <= 6;
     RegWrite <= 0;
-    RegDst <= 3;
+    RegDst <= 0;
 end
 
 6'b000011: begin // jal
@@ -144,7 +144,7 @@ end
     MemToReg <= 1;
     MemWrite <= 0;
     ALUSrc <= 1;
-    ALUOp <= 0;
+    ALUOp <= 10;
     RegWrite <= 1;
     RegDst <= 0;
 end
@@ -155,7 +155,7 @@ end
     MemToReg <= 1;
     MemWrite <= 0;
     ALUSrc <= 1;
-    ALUOp <= 0;
+    ALUOp <= 10;
     RegWrite <= 1;
     RegDst <= 0;
 end  
@@ -166,7 +166,7 @@ end
     MemToReg <= 1;
     MemWrite <= 0;
     ALUSrc <= 1;
-    ALUOp <= 0;
+    ALUOp <= 10;
     RegWrite <= 1;
     RegDst <= 0;
 end
@@ -178,7 +178,7 @@ end
     MemToReg <= 0;
     MemWrite <= 3;
     ALUSrc <= 1;
-    ALUOp <= 0;
+    ALUOp <= 10;
     RegWrite <= 0;
     RegDst <= 0;
 end
@@ -189,7 +189,7 @@ end
     MemToReg <= 0;
     MemWrite <= 2;
     ALUSrc <= 1;
-    ALUOp <= 0;
+    ALUOp <= 10;
     RegWrite <= 0;
     RegDst <= 0;
 end  
@@ -200,41 +200,9 @@ end
     MemToReg <= 0;
     MemWrite <= 1;
     ALUSrc <= 1;
-    ALUOp <= 0;
+    ALUOp <= 10;
     RegWrite <= 0;
     RegDst <= 0;
-end
-
-//branches ----------------------------------------
-6'b000001: begin    // bgez
-if(Instruction[20:16] == 6'b00001) begin
- RegWrite <= 0;
- RegDst <= 3;
-end
-else begin          // bltz
- RegWrite <= 0;
- RegDst <= 3;
-end
-end
-
-6'b000100 : begin // beq 
- RegWrite <= 0;
- RegDst <= 3;
-end
-
-6'b000101: begin // bne
- RegWrite <= 0;
- RegDst <= 3;
-end
-
-6'b000111: begin // bgtz
- RegWrite <= 0;
- RegDst <= 3;
-end
-
-6'b000110: begin // blez
- RegWrite <= 0;
- RegDst <= 3;
 end
 
 default: begin
@@ -247,13 +215,18 @@ default: begin
    RegWrite <= 0;
    RegDst <= 0;
 end  
-
 endcase
+end
+else begin //nop case
+   jumpAL <= 0;
+   MemRead <= 0;
+   MemToReg <= 0;
+   MemWrite <= 0;
+   ALUSrc <= 0;
+   ALUOp <= 0;
+   RegWrite <= 0;
+   RegDst <= 0;
 end
 
 end
 endmodule
-
-/*
-
-*/
